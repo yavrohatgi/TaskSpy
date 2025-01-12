@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import os
 
 LOG_INTERVAL = 2  # Time interval to sample activity (in seconds)
-END_TIME = datetime.now() + timedelta(minutes=1)  # Run for how many minutes
+END_TIME = datetime.now() + timedelta(minutes=10)  # Run for 10 minutes
 LOG_FILE = "activity_log.json" # File to store activity logs
 REPORT_DIR = "reports" # Directory to store generated reports
 
@@ -27,21 +27,16 @@ def log_activity(activity_name):
     if current_activity["application"] == activity_name:
         return  # No change in activity
 
-    # End previous activity and log it
-    if current_activity["application"]:
-        end_time = time.time()
-        duration = end_time - current_activity["start_time"]
-        entry = {
-            "application": current_activity["application"],
-            "start_time": datetime.fromtimestamp(current_activity["start_time"]).isoformat(),
-            "end_time": datetime.fromtimestamp(end_time).isoformat(),
-            "duration": duration
-        }
-        save_log(entry)
-
-    # Start new activity
+    # Log the start of the new activity
     current_activity["application"] = activity_name
     current_activity["start_time"] = time.time()
+
+    entry = {
+        "application": activity_name,
+        "start_time": datetime.fromtimestamp(current_activity["start_time"]).isoformat(),
+    }
+    save_log(entry)
+
 
 def save_log(entry):
     """Save a log entry to the log file."""
@@ -61,14 +56,16 @@ def generate_reports():
             for line in f:
                 log = json.loads(line)
                 app = log["application"]
-                summary[app] = summary.get(app, 0) + log["duration"]
+                # Add the sampling interval (LOG_INTERVAL) to calculate total duration
+                summary[app] = summary.get(app, 0) + LOG_INTERVAL
 
         # Plot the data
         if summary:
             plt.pie(summary.values(), labels=summary.keys(), autopct="%1.1f%%", startangle=140)
             plt.title("Time Usage Summary")
-            timestamp = str(int(time.time()))
-            report_file = os.path.join(REPORT_DIR, f"summary_{timestamp}.png")
+            
+            # Save the report
+            report_file = os.path.join(REPORT_DIR, f"summary_{time.time()}.png")
             plt.savefig(report_file)
             plt.show()
             print(f"Report saved at: {report_file}")
