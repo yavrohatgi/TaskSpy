@@ -1,3 +1,4 @@
 psutil==6.1.1
 pynput==1.7.7
 matplotlib==3.10.0
+pywin32==308
