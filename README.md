@@ -1,12 +1,12 @@
-# TimeSpy
+# TaskSpy
 
-TimeSpy is a lightweight Python program designed to help users track and analyze their computer activity. The tool records time spent on applications, websites, and idle states, providing insightful reports to improve productivity.
+TaskSpy is a Python program designed to help users track their computer activity. It records time spent on various tasks, such as browsing websites, entertainment, work, and more, providing insightful reports to enhance productivity.
 
 ## Installation and Setup
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yavrohatgi/TimeSpy
+   git clone https://github.com/yavrohatgi/TaskSpy
    cd TimeSpy
    ```
 
