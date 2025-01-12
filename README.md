@@ -7,7 +7,7 @@ TaskSpy is a Python program designed to help users track their computer activity
 1. Clone the repository:
    ```bash
    git clone https://github.com/yavrohatgi/TaskSpy
-   cd TimeSpy
+   cd TaskSpy
    ```
 
 2. Install the required dependencies:
